@@ -2,20 +2,21 @@
 
 YOLOv4 Object Detection on WAYMO Datasets.
 
-## Result
-1. Visual Detection Result
-<img src="docs/images/waymo_sample_output.jpg" width="1200">
-
-2. PASCAL VOC mAP
-<img src="docs/mAP/mAP.png">
-<img src="docs/mAP/detection-results-info.png">
-
 ## Dependencies
 - python 3.6+
 - opencv
 - tqdm
 - easydict
 - tensorflow-gpu 1.14
+
+## Result
+1. Visual Detection Result
+<img src="docs/images/waymo_sample_output.jpg" width="800">
+
+2. PASCAL VOC mAP
+
+<img src="docs/mAP/mAP.png" width="500">
+
 
 ## Configure Your Dataset 
 1. path: data/classes/waymo.names
