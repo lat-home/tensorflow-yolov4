@@ -21,7 +21,7 @@ classes = utils.read_class_names(cfg.YOLO.CLASSES)
 num_classes = len(classes)
 
 
-class YOLOv4(object):
+class YoloTest(object):
     def __init__(self):
         self.input_size       = cfg.TEST.INPUT_SIZE
         self.anchor_per_scale = cfg.YOLO.ANCHOR_PER_SCALE
@@ -36,7 +36,7 @@ class YOLOv4(object):
             self.input_data = tf.placeholder(dtype=tf.float32, name='input_data')
             self.trainable  = tf.placeholder(dtype=tf.bool,    name='trainable')
 
-        model = YOLO_M_Bigger(self.input_data, self.trainable)
+        model = YOLOv4(self.input_data, self.trainable)
         self.pred_sbbox, self.pred_mbbox, self.pred_lbbox = model.pred_sbbox, model.pred_mbbox, model.pred_lbbox
 
         with tf.name_scope('ema'):
