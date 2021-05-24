@@ -11,7 +11,7 @@ from core.config import cfg
 
 
 class YOLOv4(object):
-    """Implement tensoflow yolov3 here"""
+    
     def __init__(self, input_data, trainable):
 
         self.trainable        = trainable
