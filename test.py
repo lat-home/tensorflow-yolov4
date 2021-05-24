@@ -76,8 +76,8 @@ class YoloTest(object):
             cls_ind = int(bbox[5])
             cls = classes[int(cls_ind)]
             f.write('{} {:.6f} {} {} {} {}\n'.format(cls.replace(' ', '_'), score, x1, y1, x2, y2))
-
-        return org_image
+        
+        return bboxes
 
 
 if __name__ == '__main__':
