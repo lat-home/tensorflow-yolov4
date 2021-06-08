@@ -17,6 +17,9 @@ YOLOv4 Object Detection on WAYMO Datasets.
 
 <img src="docs/mAP/mAP.png" width="500">
 
+3. Precision-Recall Curve
+
+<img src="docs/images/precision-recall.png">
 
 ## Configure Your Dataset 
 1. path: data/classes/waymo.names
