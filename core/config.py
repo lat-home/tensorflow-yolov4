@@ -20,6 +20,7 @@ __C.YOLO.ANCHORS                = "./data/anchors/yolov4_waymo_800_anchors.txt"
 
 __C.YOLO.MOVING_AVE_DECAY       = 0.9995
 __C.YOLO.STRIDES                = [8, 16, 32]
+__C.YOLO.XYSCALES               = [1.05, 1.05, 1.05]
 __C.YOLO.ANCHOR_PER_SCALE       = 3
 __C.YOLO.IOU_LOSS_THRESH        = 0.5
 __C.YOLO.UPSAMPLE_METHOD        = "resize"
@@ -38,8 +39,8 @@ __C.TRAIN.LEARN_RATE_END        = 1e-6
 __C.TRAIN.WARMUP_EPOCHS         = 1
 __C.TRAIN.FISRT_STAGE_EPOCHS    = 1
 __C.TRAIN.SECOND_STAGE_EPOCHS   = 30
-__C.TRAIN.INITIAL_WEIGHT        = "./checkpoint/pre-trained-weights"
 
+__C.TRAIN.INITIAL_WEIGHT        = "./checkpoint/yolov4_waymo_loss=24.4961.ckpt-10"              # pre-trained weights
 
 # TEST options
 __C.TEST                        = edict()
