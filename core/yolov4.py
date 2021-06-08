@@ -17,8 +17,9 @@ class YOLOv4(object):
         self.trainable        = trainable
         self.classes          = utils.read_class_names(cfg.YOLO.CLASSES)
         self.num_class        = len(self.classes)
-        self.strides          = np.array(cfg.YOLO.STRIDES)
         self.anchors          = utils.get_anchors(cfg.YOLO.ANCHORS)
+        self.strides          = np.array(cfg.YOLO.STRIDES)
+        self.xyscales         = np.array(cfg.YOLO.XYSCALES)
         self.anchor_per_scale = cfg.YOLO.ANCHOR_PER_SCALE
         self.iou_loss_thresh  = cfg.YOLO.IOU_LOSS_THRESH
         self.upsample_method  = cfg.YOLO.UPSAMPLE_METHOD
@@ -27,15 +28,15 @@ class YOLOv4(object):
             self.conv_lbbox, self.conv_mbbox, self.conv_sbbox = self.__build_nework(input_data)
         except:
             raise NotImplementedError("Can not build up YOLOv4 network!")
-
+            
         with tf.variable_scope('pred_sbbox'):
-            self.pred_sbbox = self.decode(self.conv_sbbox, self.anchors[0], self.strides[0])
+            self.pred_sbbox = self.decode(self.conv_sbbox, self.anchors[0], self.strides[0], self.xyscales[0])
 
         with tf.variable_scope('pred_mbbox'):
-            self.pred_mbbox = self.decode(self.conv_mbbox, self.anchors[1], self.strides[1])
+            self.pred_mbbox = self.decode(self.conv_mbbox, self.anchors[1], self.strides[1], self.xyscales[1])
 
         with tf.variable_scope('pred_lbbox'):
-            self.pred_lbbox = self.decode(self.conv_lbbox, self.anchors[2], self.strides[2])
+            self.pred_lbbox = self.decode(self.conv_lbbox, self.anchors[2], self.strides[2], self.xyscales[2])
 
     def __build_nework(self, input_data):
 
@@ -110,7 +111,7 @@ class YOLOv4(object):
         #############################################################################################
 
 
-    def decode(self, conv_output, anchors, stride):
+    def decode(self, conv_output, anchors, stride, xyscale):
         """
         return tensor of shape [batch_size, output_size, output_size, anchor_per_scale, 5 + num_classes]
                contains (x, y, w, h, score, probability)
@@ -135,7 +136,7 @@ class YOLOv4(object):
         xy_grid = tf.tile(xy_grid[tf.newaxis, :, :, tf.newaxis, :], [batch_size, 1, 1, anchor_per_scale, 1])
         xy_grid = tf.cast(xy_grid, tf.float32)
 
-        pred_xy = (tf.sigmoid(conv_raw_dxdy) + xy_grid) * stride
+        pred_xy = ( tf.sigmoid(conv_raw_dxdy) * xyscale - 0.5 * (xyscale - 1) + xy_grid) * stride
         pred_wh = (tf.exp(conv_raw_dwdh) * anchors) * stride
         pred_xywh = tf.concat([pred_xy, pred_wh], axis=-1)
 
